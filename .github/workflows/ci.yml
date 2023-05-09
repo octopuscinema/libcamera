@@ -31,4 +31,5 @@ jobs:
       with:
         action: build
         meson-version: 0.56
+        setup-options: -Dipas=raspberrypi -Dpipelines=raspberrypi
     
