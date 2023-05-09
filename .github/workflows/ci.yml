@@ -26,7 +26,7 @@ jobs:
     
     - uses: actions/setup-python@v1
     - name: Install python dependancies
-      run: pip install jinja2 ply yaml
+      run: pip install jinja2 ply pyyaml
     - uses: BSFishy/meson-build@v1.0.3
       with:
         action: build
