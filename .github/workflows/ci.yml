@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  windows:
+  aarch64:
     name: ARM 64-bit
     runs-on: ubuntu-20.04
     timeout-minutes: 10
@@ -23,3 +23,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Build
+      run: meson setup build
+    
