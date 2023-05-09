@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  VARIABLE: data
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: ARM 64-bit
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+    
+    env:
+      VARIABLE: data
+
+    steps:
+    - uses: actions/checkout@v3
