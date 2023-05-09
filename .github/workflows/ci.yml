@@ -28,4 +28,5 @@ jobs:
     - uses: BSFishy/meson-build@v1.0.3
       with:
         action: build
+        meson-version: 0.56
     
