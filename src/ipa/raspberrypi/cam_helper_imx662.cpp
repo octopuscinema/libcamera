@@ -8,7 +8,7 @@
 
 #include <math.h>
 
-#include "cam_helper.hpp"
+#include "cam_helper.h"
 
 using namespace RPiController;
 
