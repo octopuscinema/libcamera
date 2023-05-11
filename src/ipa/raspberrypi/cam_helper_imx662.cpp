@@ -16,11 +16,10 @@ class CamHelperImx662 : public CamHelper
 {
 public:
 	CamHelperImx662();
-	uint32_t GainCode(double gain) const override;
-	double Gain(uint32_t gain_code) const override;
-	void GetDelays(int &exposure_delay, int &gain_delay,
-		       int &vblank_delay) const override;
-	unsigned int HideFramesModeSwitch() const override;
+	uint32_t gainCode(double gain) const override;
+	double gain(uint32_t gain_code) const override;
+	void getDelays(int &exposure_delay, int &gain_delay, int &vblank_delay) const override;
+	unsigned int hideFramesModeSwitch() const override;
 
 private:
 	/*
@@ -35,34 +34,33 @@ CamHelperImx662::CamHelperImx662()
 {
 }
 
-uint32_t CamHelperImx662::GainCode(double gain) const
+uint32_t CamHelperImx662::gainCode(double gain) const
 {
 	int code = 66.6667 * log10(gain);
 	return std::max(0, std::min(code, 0xf0));
 }
 
-double CamHelperImx662::Gain(uint32_t gain_code) const
+double CamHelperImx662::gain(uint32_t gain_code) const
 {
 	return pow(10, 0.015 * gain_code);
 }
 
-void CamHelperImx662::GetDelays(int &exposure_delay, int &gain_delay,
-				int &vblank_delay) const
+void CamHelperImx662::getDelays(int &exposure_delay, int &gain_delay, int &vblank_delay) const
 {
 	exposure_delay = 2;
 	gain_delay = 2;
 	vblank_delay = 2;
 }
 
-unsigned int CamHelperImx662::HideFramesModeSwitch() const
+unsigned int CamHelperImx662::hideFramesModeSwitch() const
 {
 	/* After a mode switch, we seem to get 1 bad frame. */
 	return 1;
 }
 
-static CamHelper *Create()
+static CamHelper *create()
 {
 	return new CamHelperImx662();
 }
 
-static RegisterCamHelper reg("imx662", &Create);
+static RegisterCamHelper reg("imx662", &create);
