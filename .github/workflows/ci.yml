@@ -13,8 +13,8 @@ permissions:
   contents: read
 
 jobs:
-  aarch64:
-    name: ARM 64-bit
+  rpios-bullseye-64:
+    name: Raspberry Pi OS 11 (64-bit)
     runs-on: ubuntu-20.04
     timeout-minutes: 10
     
@@ -28,6 +28,7 @@ jobs:
     - name: Install python dependancies
       run: pip install jinja2 ply pyyaml
     - uses: BSFishy/meson-build@v1.0.3
+      name: Build Raspberry Pi pipeline and IPA
       with:
         action: build
         meson-version: 0.56
