@@ -23,8 +23,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
-    - uses: actions/setup-python@v1
+      name: Checkout
+    - uses: actions/setup-python@v3
+      name: Setup Python
     - name: Install python dependancies
       run: pip install jinja2 ply pyyaml
     - uses: BSFishy/meson-build@v1.0.3
