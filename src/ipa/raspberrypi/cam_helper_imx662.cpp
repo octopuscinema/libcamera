@@ -18,7 +18,7 @@ public:
 	CamHelperImx662();
 	uint32_t gainCode(double gain) const override;
 	double gain(uint32_t gain_code) const override;
-	void getDelays(int &exposure_delay, int &gain_delay, int &vblank_delay) const override;
+	void getDelays(int &exposure_delay, int &gain_delay, int &vblank_delay, int &hblankDelay) const override;
 	unsigned int hideFramesModeSwitch() const override;
 
 private:
@@ -45,11 +45,12 @@ double CamHelperImx662::gain(uint32_t gain_code) const
 	return pow(10, 0.015 * gain_code);
 }
 
-void CamHelperImx662::getDelays(int &exposure_delay, int &gain_delay, int &vblank_delay) const
+void CamHelperImx662::getDelays(int &exposure_delay, int &gain_delay, int &vblank_delay, int &hblankDelay) const
 {
 	exposure_delay = 2;
 	gain_delay = 2;
 	vblank_delay = 2;
+	hblankDelay = 2;
 }
 
 unsigned int CamHelperImx662::hideFramesModeSwitch() const
