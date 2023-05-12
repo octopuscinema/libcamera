@@ -4,11 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       documentation:
-        type: boolean
+        type: choice
         description: Create documentation
+        options:
+        - enabled
+        - disabled
       qcam:
-        type: boolean
+        type: choice
         description: Build qcam application
+        options:
+        - enabled
+        - disabled
 
 env:
   VARIABLE: data
@@ -63,7 +69,7 @@ jobs:
       with:
         action: build
         meson-version: 0.56
-        setup-options: --prefix /usr --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=disabled -Ddocumentation=disabled
+        setup-options: --prefix /usr --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=${{ github.event.inputs.qcam }} -Ddocumentation=${{ github.event.inputs.documentation }}
     
     - name: Package .deb
       run: |
