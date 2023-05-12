@@ -8,3 +8,4 @@ Depends: libc6 (>= 2.30), libdw1 (>= 0.158), libgcc-s1 (>= 4.2), libglib2.0-0 (>
 Homepage: https://libcamera.org/
 Description: libcamera is a complex camera support library which handles low-level control of the camera devices, providing a unified higher-level programming interface to the applications.
 Conflicts: libcamera-dev, libcamera0
+Provides: libcamera-dev, libcamera0

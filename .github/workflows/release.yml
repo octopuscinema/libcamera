@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      documentation:
+        type: boolean
+        description: Create documentation
+      qcam:
+        type: boolean
+        description: Build qcam application
+
+env:
+  VARIABLE: data
+
+permissions:
+  contents: read
+
+jobs:
+  rpios-bullseye-64:
+    name: Raspberry Pi OS 11 (64-bit)
+    runs-on: ubuntu-20.04
+    container: debian:bullseye
+    timeout-minutes: 10
+    
+    env:
+      VARIABLE: data
+
+    steps:
+
+    - uses: actions/checkout@v3
+      name: Checkout
+
+    - name: Prepare environment
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+        dpkg --add-architecture arm64
+
+    - uses: actions/setup-python@v3
+      name: Setup Python
+
+    - uses: BSFishy/pip-action@v1
+      name: Install Python packages
+      with:
+        packages: |
+          jinja2
+          ply
+          pyyaml
+
+    - name: Install dependancies
+      run: apt-get update && apt-get install -y cmake git meson ninja-build pkg-config dpkg-dev openssl python3-sphinx doxygen ghostscript graphviz texlive-latex-extra liblttng-ust-dev python3-jinja2 lttng-tools
+
+    - name: Install ARM 64-bit toolchain
+      run: apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu libgnutls28-dev:arm64 libboost-dev:arm64 libudev-dev:arm64 libgstreamer1.0-dev:arm64 libgstreamer-plugins-base1.0-dev:arm64 libevent-dev:arm64 qtbase5-dev:arm64 libqt5core5a:arm64 libqt5gui5:arm64 libqt5widgets5:arm64 qttools5-dev-tools:arm64 libtiff-dev:arm64 libexif-dev:arm64 libjpeg-dev:arm64 libyaml-dev:arm64
+      
+    - name: Prepare ARM 64-bit compilation
+      run: |
+        /usr/share/meson/debcrossgen --arch arm64 -o ./arm64-cross
+        mv /usr/lib/aarch64-linux-gnu/qt5/bin/lrelease /usr/lib/aarch64-linux-gnu/qt5/bin/lrelease.old
+      
+    - uses: BSFishy/meson-build@v1.0.3
+      name: Build Raspberry Pi pipeline and IPA
+      with:
+        action: build
+        meson-version: 0.56
+        setup-options: --prefix /usr --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=disabled -Ddocumentation=disabled
+    
+    - name: Package .deb
+      run: |
+        DESTDIR=$(readlink -f ./aarch64) ninja -C ./build install
+        dpkg -b aarch64 libcamera_0.0.4octopus-0_arm64.deb
+    
+    - name: Upload .deb artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: libcamera_0.0.4octopus-0_arm64
+        path: ./libcamera_0.0.4octopus-0_arm64.deb
+        if-no-files-found: error
