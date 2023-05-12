@@ -35,18 +35,28 @@ jobs:
     - uses: actions/setup-python@v3
       name: Setup Python
 
+    - uses: BSFishy/pip-action@v1
+      name: Install Python packages
+      with:
+        packages: |
+          jinja2
+          ply
+          pyyaml
+
     - name: Install dependancies
-      run: |
-        apt-get update && apt-get install -y cmake git meson ninja-build pkg-config dpkg-dev python3-pip python3-yaml python3-ply python3-jinja2 openssl python3-sphinx doxygen ghostscript graphviz texlive-latex-extra liblttng-ust-dev python3-jinja2 lttng-tools
-        pip install jinja2 ply pyyaml
+      run: apt-get update && apt-get install -y cmake git meson ninja-build pkg-config dpkg-dev openssl python3-sphinx doxygen ghostscript graphviz texlive-latex-extra liblttng-ust-dev python3-jinja2 lttng-tools
 
     - name: Install ARM 64-bit toolchain
       run: apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu libgnutls28-dev:arm64 libboost-dev:arm64 libudev-dev:arm64 libgstreamer1.0-dev:arm64 libgstreamer-plugins-base1.0-dev:arm64 libevent-dev:arm64 qtbase5-dev:arm64 libqt5core5a:arm64 libqt5gui5:arm64 libqt5widgets5:arm64 qttools5-dev-tools:arm64 libtiff-dev:arm64 libexif-dev:arm64 libjpeg-dev:arm64 libyaml-dev:arm64
+      
+    - name: Prepare ARM 64-bit compilation
+      run: /usr/share/meson/debcrossgen --arch arm64 -o ./arm64-cross
       
     - uses: BSFishy/meson-build@v1.0.3
       name: Build Raspberry Pi pipeline and IPA
       with:
         action: build
         meson-version: 0.56
+        options: --cross-file ./arm64-cross
         setup-options: -Dipas=raspberrypi -Dpipelines=raspberrypi
     
