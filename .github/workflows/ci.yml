@@ -25,12 +25,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       name: Checkout
-    - name: Prepare environment
-      run: dpkg --add-architecture arm64
     - uses: actions/setup-python@v3
       name: Setup Python
-    - name: Install python dependancies
-      run: pip install jinja2 ply pyyaml
+    - name: Prepare environment
+      run: dpkg --add-architecture arm64
+    - name: Install dependancies
+      run: apt-get update -y && apt-get install meson ninja-build pkg-config dpkg-dev python3-yaml python3-ply python3-jinja2 openssl python3-sphinx doxygen ghostscript graphviz texlive-latex-extra liblttng-ust-dev python3-jinja2 lttng-tools
     - uses: BSFishy/meson-build@v1.0.3
       name: Build Raspberry Pi pipeline and IPA
       with:
