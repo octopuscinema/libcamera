@@ -50,13 +50,13 @@ jobs:
       run: apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu libgnutls28-dev:arm64 libboost-dev:arm64 libudev-dev:arm64 libgstreamer1.0-dev:arm64 libgstreamer-plugins-base1.0-dev:arm64 libevent-dev:arm64 qtbase5-dev:arm64 libqt5core5a:arm64 libqt5gui5:arm64 libqt5widgets5:arm64 qttools5-dev-tools:arm64 libtiff-dev:arm64 libexif-dev:arm64 libjpeg-dev:arm64 libyaml-dev:arm64
       
     - name: Prepare ARM 64-bit compilation
-      run: /usr/share/meson/debcrossgen --arch arm64 -o ./arm64-cross
+      run: |
+        /usr/share/meson/debcrossgen --arch arm64 -o ./arm64-cross
+        mv /usr/lib/aarch64-linux-gnu/qt5/bin/lrelease /usr/lib/aarch64-linux-gnu/qt5/bin/lrelease.old
       
     - uses: BSFishy/meson-build@v1.0.3
       name: Build Raspberry Pi pipeline and IPA
       with:
         action: build
         meson-version: 0.56
-        options: --cross-file ./arm64-cross
-        setup-options: -Dipas=raspberrypi -Dpipelines=raspberrypi
-    
+        setup-options: --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi
