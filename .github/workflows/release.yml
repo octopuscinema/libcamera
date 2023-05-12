@@ -7,11 +7,17 @@ on:
         type: choice
         description: Create documentation
         options:
-        - enabled
         - disabled
+        - enabled
       qcam:
         type: choice
         description: Build qcam application
+        options:
+        - disabled
+        - enabled
+      gstreamer-support:
+        type: choice
+        description: GStreamer support
         options:
         - enabled
         - disabled
@@ -69,7 +75,7 @@ jobs:
       with:
         action: build
         meson-version: 0.56
-        setup-options: --libdir lib/aarch64-linux-gnu --prefix /usr --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=${{ github.event.inputs.qcam }} -Ddocumentation=${{ github.event.inputs.documentation }}
+        setup-options: --libdir lib/aarch64-linux-gnu --prefix /usr --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=${{ github.event.inputs.qcam }} -Ddocumentation=${{ github.event.inputs.documentation }} -Dgstreamer=${{ github.event.inputs.gstreamer-support }}
     
     - name: Package .deb
       run: |
