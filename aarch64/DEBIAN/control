@@ -4,5 +4,7 @@ Architecture: arm64
 Section: libs
 Priority: optional
 Maintainer: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
-Depends: libevent-pthreads-2.1-7
-Description: A package providing libcamera, a part of the camera stack for complex cameras
+Depends: libc6 (>= 2.30), libdw1 (>= 0.158), libgcc-s1 (>= 4.2), libglib2.0-0 (>= 2.37.3), libgnutls30 (>= 3.7.0), libgstreamer-plugins-base1.0-0 (>= 1.14.0), libgstreamer1.0-0 (>= 1.18.0), libstdc++6 (>= 6), libudev1 (>= 183), libunwind8, libyaml-0-2, raspberrypi-kernel (>= 1:1.20211201~)
+Homepage: https://libcamera.org/
+Description: libcamera is a complex camera support library which handles low-level control of the camera devices, providing a unified higher-level programming interface to the applications.
+Conflicts: libcamera-dev, libcamera0
