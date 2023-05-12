@@ -16,6 +16,7 @@ jobs:
   rpios-bullseye-64:
     name: Raspberry Pi OS 11 (64-bit)
     runs-on: ubuntu-20.04
+    container: debian:bullseye
     timeout-minutes: 10
     
     env:
@@ -24,6 +25,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       name: Checkout
+    - name: Prepare environment
+      run: dpkg --add-architecture arm64
     - uses: actions/setup-python@v3
       name: Setup Python
     - name: Install python dependancies
