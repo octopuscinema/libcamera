@@ -60,7 +60,12 @@ jobs:
         action: build
         meson-version: 0.56
         setup-options: --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=disabled -Ddocumentation=disabled
-        
+    
+    - name: Build package
+      run: |
+        DESTDIR=$(readlink -f ./aarch64) ninja -C ./build install
+        dpkg -b aarch64 libcamera_0.0.4octopus-0_arm64.deb
+    
     - name: List Output
       run: |
           ls -l
