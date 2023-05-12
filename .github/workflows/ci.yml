@@ -61,12 +61,14 @@ jobs:
         meson-version: 0.56
         setup-options: --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=disabled -Ddocumentation=disabled
     
-    - name: Build package
+    - name: Package .deb
       run: |
         DESTDIR=$(readlink -f ./aarch64) ninja -C ./build install
         dpkg -b aarch64 libcamera_0.0.4octopus-0_arm64.deb
     
-    - name: List Output
-      run: |
-          ls -l
-          cd build && ls -l
+    - name: Upload .deb artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: libcamera_0.0.4octopus-0_arm64
+        path: ./libcamera_0.0.4octopus-0_arm64.deb
+        if-no-files-found: error
