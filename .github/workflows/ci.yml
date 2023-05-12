@@ -59,7 +59,7 @@ jobs:
       with:
         action: build
         meson-version: 0.56
-        setup-options: --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=disabled -Ddocumentation=false
+        setup-options: --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=disabled -Ddocumentation=disabled
         
     - name: List Output
       run: |
