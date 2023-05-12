@@ -1,0 +1,8 @@
+Package: libcamera
+Version: 0.0.4octopus
+Architecture: arm64
+Section: libs
+Priority: optional
+Maintainer: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Depends: libevent-pthreads-2.1-7
+Description: A package providing libcamera, a part of the camera stack for complex cameras
