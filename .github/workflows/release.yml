@@ -75,7 +75,7 @@ jobs:
       with:
         action: build
         meson-version: 0.56
-        setup-options: --libdir lib/aarch64-linux-gnu --prefix /usr --cross-file ./arm64-cross -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=${{ github.event.inputs.qcam }} -Ddocumentation=${{ github.event.inputs.documentation }} -Dgstreamer=${{ github.event.inputs.gstreamer-support }}
+        setup-options: --libdir lib/aarch64-linux-gnu --prefix /usr --cross-file ./arm64-cross -Dbuildtype=release -Dipas=raspberrypi -Dpipelines=raspberrypi -Dqcam=${{ github.event.inputs.qcam }} -Ddocumentation=${{ github.event.inputs.documentation }} -Dgstreamer=${{ github.event.inputs.gstreamer-support }}
     
     - name: Package .deb
       run: |
