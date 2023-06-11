@@ -1,5 +1,5 @@
 Package: libcamera
-Version: 0.0.4octopus
+Version: 0.0.5octopus
 Architecture: arm64
 Section: libs
 Priority: optional
