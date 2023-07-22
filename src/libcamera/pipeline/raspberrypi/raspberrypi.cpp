@@ -111,6 +111,9 @@ V4L2DeviceFormat toV4L2DeviceFormat(const V4L2VideoDevice *dev,
 	deviceFormat.fourcc = dev->toV4L2PixelFormat(pix);
 	deviceFormat.size = format.size;
 	deviceFormat.colorSpace = format.colorSpace;
+	
+	LOG(RPI, Debug) << "toV4L2DeviceFormat, pix:" << pix << ", format:" << format << ", packing:" << (int)packingReq << ", mbuscode:" << format.mbus_code;
+	
 	return deviceFormat;
 }
 
