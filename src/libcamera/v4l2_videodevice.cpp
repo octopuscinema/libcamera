@@ -737,6 +737,8 @@ int V4L2VideoDevice::initFormats()
 		return -EINVAL;
 	}
 
+	for(auto& deviceFormat : deviceFormats)
+		LOG(V4L2, Debug) << "V4L2VideoDevice::initFormats deviceFormat: " << deviceFormat;
 	pixelFormats_ = { deviceFormats.begin(), deviceFormats.end() };
 
 	int ret = getFormat(&format_);
@@ -2056,10 +2058,12 @@ V4L2PixelFormat V4L2VideoDevice::toV4L2PixelFormat(const PixelFormat &pixelForma
 		V4L2PixelFormat::fromPixelFormat(pixelFormat);
 
 	for (const V4L2PixelFormat &v4l2Format : v4l2PixelFormats) {
+		LOG(V4L2, Debug) << "V4L2VideoDevice::toV4L2PixelFormat format: " << v4l2Format;
 		if (pixelFormats_.count(v4l2Format))
 			return v4l2Format;
 	}
-
+	
+	LOG(V4L2, Error) << "Failed to match PixelFormat: " << pixelFormat << " to a supported V4L2 device format";
 	return {};
 }
 
