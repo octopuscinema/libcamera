@@ -476,6 +476,8 @@ bool ColorSpace::adjust(PixelFormat format)
 		 * probable option from the transfer function and primaries.
 		 */
 		switch (transferFunction) {
+		/* Gradation Compression is for raw and shouldn't be used with YUV*/
+		case TransferFunction::GradationCompression:
 		case TransferFunction::Linear:
 			/*
 			 * Linear YUV is not used in any standard color space,
