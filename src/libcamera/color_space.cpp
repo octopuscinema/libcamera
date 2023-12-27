@@ -93,6 +93,9 @@ namespace libcamera {
  *
  * \var ColorSpace::TransferFunction::Rec709
  * \brief Rec.709 transfer function
+ * 
+ * \var ColorSpace::TransferFunction::GradationCompression
+ * \brief This color space uses non-linear gradation compression
  */
 
 /**
@@ -140,6 +143,16 @@ namespace libcamera {
 const ColorSpace ColorSpace::Raw = {
 	Primaries::Raw,
 	TransferFunction::Linear,
+	YcbcrEncoding::None,
+	Range::Full
+};
+
+/**
+ * \brief A constant representing a non-linear raw color space (from a sensor)
+ */
+const ColorSpace ColorSpace::RawNonLinear = {
+	Primaries::Raw,
+	TransferFunction::GradationCompression,
 	YcbcrEncoding::None,
 	Range::Full
 };
@@ -237,6 +250,7 @@ const std::map<ColorSpace::TransferFunction, std::string> transferNames = {
 	{ ColorSpace::TransferFunction::Linear, "Linear" },
 	{ ColorSpace::TransferFunction::Srgb, "sRGB" },
 	{ ColorSpace::TransferFunction::Rec709, "Rec709" },
+	{ ColorSpace::TransferFunction::GradationCompression, "GradationCompression" },
 };
 
 const std::map<ColorSpace::YcbcrEncoding, std::string> encodingNames = {
@@ -427,9 +441,12 @@ bool ColorSpace::adjust(PixelFormat format)
 
 	switch (info.colourEncoding) {
 	case PixelFormatInfo::ColourEncodingRAW:
-		/* Raw formats must use the raw color space. */
-		if (*this != ColorSpace::Raw) {
+		/* Raw formats must use a raw color space. */
+		if (*this != ColorSpace::Raw && *this != ColorSpace::RawNonLinear) {
+			const bool nonLinear = (transferFunction == TransferFunction::GradationCompression);
 			*this = ColorSpace::Raw;
+			if ( nonLinear )
+				transferFunction = TransferFunction::GradationCompression;
 			adjusted = true;
 		}
 		break;

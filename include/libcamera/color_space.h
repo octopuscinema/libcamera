@@ -28,6 +28,7 @@ public:
 		Linear,
 		Srgb,
 		Rec709,
+		GradationCompression,
 	};
 
 	enum class YcbcrEncoding {
@@ -48,6 +49,7 @@ public:
 	}
 
 	static const ColorSpace Raw;
+	static const ColorSpace RawNonLinear;
 	static const ColorSpace Srgb;
 	static const ColorSpace Sycc;
 	static const ColorSpace Smpte170m;
