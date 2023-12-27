@@ -85,6 +85,9 @@ colorimetry_from_colorspace(const ColorSpace &colorSpace)
 	}
 
 	switch (colorSpace.transferFunction) {
+	case ColorSpace::TransferFunction::GradationCompression:
+		colorimetry.transfer = GST_VIDEO_TRANSFER_UNKNOWN;
+		break;
 	case ColorSpace::TransferFunction::Linear:
 		colorimetry.transfer = GST_VIDEO_TRANSFER_GAMMA10;
 		break;
