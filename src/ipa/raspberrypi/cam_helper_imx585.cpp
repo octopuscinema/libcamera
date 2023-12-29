@@ -19,6 +19,7 @@ public:
 	double gain(uint32_t gainCode) const override;
 	void getDelays(int &exposureDelay, int &gainDelay,
 		       int &vblankDelay, int &hblankDelay) const override;
+	unsigned int hideFramesStartup() const override;
 	unsigned int hideFramesModeSwitch() const override;
 
 private:
@@ -54,10 +55,16 @@ void CamHelperImx585::getDelays(int &exposureDelay, int &gainDelay,
 	hblankDelay = 2;
 }
 
+unsigned int CamHelperImx585::hideFramesStartup() const
+{
+	/* There's 8 frames that should be ignored after the imx585 resumes from standby. */
+	return 8;
+}
+
 unsigned int CamHelperImx585::hideFramesModeSwitch() const
 {
-	/* After a mode switch, we seem to get 1 bad frame. */
-	return 1;
+	/* There's 8 frames that should be ignored after the imx585 resumes from standby. */
+	return 8;
 }
 
 static CamHelper *create()
