@@ -230,7 +230,7 @@ const ColorSpace ColorSpace::Rec2020 = {
 
 namespace {
 
-const std::array<std::pair<ColorSpace, const char *>, 6> colorSpaceNames = { {
+const std::array<std::pair<ColorSpace, const char *>, 7> colorSpaceNames = { {
 	{ ColorSpace::Raw, "RAW" },
 	{ ColorSpace::RawNonLinear, "RAW non-linear" },
 	{ ColorSpace::Srgb, "sRGB" },
