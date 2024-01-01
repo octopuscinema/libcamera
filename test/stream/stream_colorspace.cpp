@@ -84,7 +84,7 @@ protected:
 		streamCfg.pixelFormat = formats::SBGGR8;
 		streamCfg.colorSpace = ColorSpace::Rec709;
 		config.validate();
-		if (streamCfg.colorSpace != ColorSpace::Raw) {
+		if (streamCfg.colorSpace != ColorSpace::Raw && streamCfg.colorSpace != ColorSpace::RawNonLinear) {
 			cerr << "Raw format must always have Raw colorspace" << endl;
 			return TestFail;
 		}

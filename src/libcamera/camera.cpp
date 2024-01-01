@@ -370,7 +370,7 @@ CameraConfiguration::Status CameraConfiguration::validateColorSpaces(ColorSpaceF
 		if (cfg.colorSpace->adjust(cfg.pixelFormat))
 			status = Adjusted;
 
-		if (cfg.colorSpace != ColorSpace::Raw && cfg.size > size) {
+		if (cfg.colorSpace != ColorSpace::Raw && cfg.colorSpace != ColorSpace::RawNonLinear && cfg.size > size) {
 			colorSpace = cfg.colorSpace;
 			size = cfg.size;
 		}
@@ -382,6 +382,7 @@ CameraConfiguration::Status CameraConfiguration::validateColorSpaces(ColorSpaceF
 	/* Make all output color spaces the same, if requested. */
 	for (auto &cfg : config_) {
 		if (cfg.colorSpace != ColorSpace::Raw &&
+			cfg.colorSpace != ColorSpace::RawNonLinear &&
 		    cfg.colorSpace != colorSpace) {
 			cfg.colorSpace = colorSpace;
 			status = Adjusted;

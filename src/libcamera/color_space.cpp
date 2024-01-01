@@ -232,6 +232,7 @@ namespace {
 
 const std::array<std::pair<ColorSpace, const char *>, 6> colorSpaceNames = { {
 	{ ColorSpace::Raw, "RAW" },
+	{ ColorSpace::RawNonLinear, "RAW non-linear" },
 	{ ColorSpace::Srgb, "sRGB" },
 	{ ColorSpace::Sycc, "sYCC" },
 	{ ColorSpace::Smpte170m, "SMPTE170M" },

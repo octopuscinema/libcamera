@@ -459,9 +459,10 @@ CameraConfiguration::Status RPiCameraConfiguration::validateColorSpaces([[maybe_
 		/* First fix up raw streams to have the "raw" colour space. */
 		if (isRaw(cfg.pixelFormat)) {
 			/* If there was no value here, that doesn't count as "adjusted". */
-			if (cfg.colorSpace && cfg.colorSpace != ColorSpace::Raw)
+			if (cfg.colorSpace && cfg.colorSpace != ColorSpace::Raw && cfg.colorSpace != ColorSpace::RawNonLinear)
 				status = Adjusted;
-			cfg.colorSpace = ColorSpace::Raw;
+			const bool nonLinear = cfg.colorSpace && cfg.colorSpace->transferFunction == libcamera::ColorSpace::TransferFunction::GradationCompression;
+			cfg.colorSpace = nonLinear ? ColorSpace::RawNonLinear : ColorSpace::Raw;
 			continue;
 		}
 
@@ -481,7 +482,7 @@ CameraConfiguration::Status RPiCameraConfiguration::validateColorSpaces([[maybe_
 
 	/* Go through the streams again and force everyone to the same colour space. */
 	for (auto cfg : config_) {
-		if (cfg.colorSpace == ColorSpace::Raw)
+		if (cfg.colorSpace == ColorSpace::Raw || cfg.colorSpace == ColorSpace::RawNonLinear)
 			continue;
 
 		if (isYuv(cfg.pixelFormat) && cfg.colorSpace != yuvColorSpace_) {
