@@ -811,6 +811,7 @@ int PipelineHandlerRPi::configure(Camera *camera, CameraConfiguration *config)
 		stream->setExternal(false);
 
 	BayerFormat::Packing packing = BayerFormat::Packing::CSI2;
+	std::optional<ColorSpace> rawColorSpace;
 	Size maxSize, sensorSize;
 	unsigned int maxIndex = 0;
 	bool rawStream = false;
@@ -834,6 +835,8 @@ int PipelineHandlerRPi::configure(Camera *camera, CameraConfiguration *config)
 			BayerFormat bayerFormat = BayerFormat::fromPixelFormat(cfg.pixelFormat);
 			packing = bayerFormat.packing;
 			bitDepth = bayerFormat.bitDepth;
+			rawColorSpace = cfg.colorSpace;
+			
 		} else {
 			if (cfg.size > maxSize) {
 				maxSize = config->at(i).size;
@@ -848,6 +851,8 @@ int PipelineHandlerRPi::configure(Camera *camera, CameraConfiguration *config)
 	 * any.
 	 */
 	V4L2SubdeviceFormat sensorFormat = findBestFormat(data->sensorFormats_, rawStream ? sensorSize : maxSize, bitDepth);
+	if ( rawStream && rawColorSpace.has_value() )
+		sensorFormat.colorSpace = rawColorSpace;
 	const RPiCameraConfiguration *rpiConfig = static_cast<const RPiCameraConfiguration *>(config);
 	ret = data->sensor_->setFormat(&sensorFormat, rpiConfig->combinedTransform_);
 	if (ret)
