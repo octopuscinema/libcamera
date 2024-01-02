@@ -815,6 +815,7 @@ static const std::map<ColorSpace::TransferFunction, v4l2_xfer_func> transferFunc
 	{ ColorSpace::TransferFunction::Linear, V4L2_XFER_FUNC_NONE },
 	{ ColorSpace::TransferFunction::Srgb, V4L2_XFER_FUNC_SRGB },
 	{ ColorSpace::TransferFunction::Rec709, V4L2_XFER_FUNC_709 },
+	{ ColorSpace::TransferFunction::GradationCompression, V4L2_XFER_FUNC_GRADATION_COMPRESSION },
 };
 
 static const std::map<ColorSpace::YcbcrEncoding, v4l2_ycbcr_encoding> ycbcrEncodingToV4l2 = {
