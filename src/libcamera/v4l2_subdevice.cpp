@@ -542,7 +542,7 @@ int V4L2Subdevice::getFormat(unsigned int pad, V4L2SubdeviceFormat *format,
 	format->colorSpace = toColorSpace(subdevFmt.format);
 
 	if ( format->colorSpace.has_value() )
-		LOG(V4L2, Info) << "V4L2Subdevice::getFormat, colorSpace->transferFunction:" << format->colorSpace->transferFunction;
+		LOG(V4L2, Info) << "V4L2Subdevice::getFormat, colorSpace->transferFunction:" << (int)format->colorSpace->transferFunction;
 	else
 		LOG(V4L2, Info) << "V4L2Subdevice::getFormat, colorSpace: nullopt";
 
