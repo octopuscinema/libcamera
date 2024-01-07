@@ -541,11 +541,6 @@ int V4L2Subdevice::getFormat(unsigned int pad, V4L2SubdeviceFormat *format,
 	format->mbus_code = subdevFmt.format.code;
 	format->colorSpace = toColorSpace(subdevFmt.format);
 
-	if ( format->colorSpace.has_value() )
-		LOG(V4L2, Info) << "V4L2Subdevice::getFormat, colorSpace->transferFunction:" << (int)format->colorSpace->transferFunction;
-	else
-		LOG(V4L2, Info) << "V4L2Subdevice::getFormat, colorSpace: nullopt";
-
 	return 0;
 }
 
@@ -578,8 +573,6 @@ int V4L2Subdevice::setFormat(unsigned int pad, V4L2SubdeviceFormat *format,
 		if (entity_->pads()[pad]->flags() & MEDIA_PAD_FL_SOURCE)
 			subdevFmt.format.flags |= V4L2_MBUS_FRAMEFMT_SET_CSC;
 	}
-
-	LOG(V4L2, Info) << "V4L2Subdevice::setFormat, subdevFmt.format.xfer_func:" << subdevFmt.format.xfer_func;
 
 	int ret = ioctl(VIDIOC_SUBDEV_S_FMT, &subdevFmt);
 	if (ret) {
