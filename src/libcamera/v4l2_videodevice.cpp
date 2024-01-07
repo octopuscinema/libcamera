@@ -1042,6 +1042,11 @@ int V4L2VideoDevice::trySetFormatSingleplane(V4L2DeviceFormat *format, bool set)
 			pix->flags |= V4L2_PIX_FMT_FLAG_SET_CSC;
 	}
 
+	if ( format->colorSpace.has_value() )
+		LOG(V4L2, Info) << "V4L2VideoDevice::trySetFormatSingleplane, colorSpace->transferFunction:" << (int)format->colorSpace->transferFunction;
+	else
+		LOG(V4L2, Info) << "V4L2VideoDevice::trySetFormatSingleplane, colorSpace: nullopt";
+
 	ret = ioctl(set ? VIDIOC_S_FMT : VIDIOC_TRY_FMT, &v4l2Format);
 	if (ret) {
 		LOG(V4L2, Error)
@@ -1061,6 +1066,8 @@ int V4L2VideoDevice::trySetFormatSingleplane(V4L2DeviceFormat *format, bool set)
 	format->planes[0].bpl = pix->bytesperline;
 	format->planes[0].size = pix->sizeimage;
 	format->colorSpace = toColorSpace(*pix);
+
+	LOG(V4L2, Info) << "V4L2VideoDevice::trySetFormatSingleplane, v4l2Format.fmt.pix.xfer_func:" << pix->xfer_func;
 
 	return 0;
 }
